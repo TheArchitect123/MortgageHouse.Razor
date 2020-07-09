@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using ExtractImages.Constants;
+using ExtractImages.Services.Security;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -11,14 +14,14 @@ namespace ExtractImages.Middleware
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly IUserSecurity _userService;
+        private readonly UserSecurity _userService;
 
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            IUserSecurity userService)
+            UserSecurity userService)
             : base(options, logger, encoder, clock)
         {
             _userService = userService;

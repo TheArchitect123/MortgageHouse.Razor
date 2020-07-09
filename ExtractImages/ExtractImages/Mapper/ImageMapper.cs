@@ -16,16 +16,12 @@ namespace ExtractImages.Mapper
 
         public void InitializeToDto()
         {
-            this.CreateMap<Address, AddressDto>();
-            this.CreateMap<Contact, ContactDto>();
-            this.CreateMap<ContactAddress, ContactAddressDto>();
+            //this.CreateMap<Address, AddressDto>();
         }
 
         public void InitializeFromDto()
         {
-            this.CreateMap<AddressDto, Address>();
-            this.CreateMap<ContactDto, Contact>();
-            this.CreateMap<ContactAddressDto, ContactAddress>();
+            //this.CreateMap<AddressDto, Address>();
         }
     }
 }

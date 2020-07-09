@@ -21,14 +21,11 @@ namespace ExtractImages
         public Startup(IConfiguration configuration) => Configuration = configuration;
         public IConfiguration Configuration { get; }
 
-        //private void InitializeDatabase()
-        //{
-        //    if (!File.Exists(DbConstants.ConnectionString))
-        //    {
-        //        Directory.CreateDirectory(DbConstants.ConnectionStringDir);
-        //        File.Create(DbConstants.ConnectionString).Dispose();
-        //    }
-        //}
+        private void InitializeDatabase()
+        {
+           //This will check the bacpac file, if it exists, and will run a data migration, which will create the 'new' table if it does not exist
+           
+        }
 
         //private void InitializeCsvDatabase()
         //{
@@ -42,17 +39,11 @@ namespace ExtractImages
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //InitializeCsvDatabase();
-
+            InitializeDatabase();
             services.AddMvc(w => w.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             //Services
             services.AddScoped<ImageCommonService>().AddScoped<UserSecurity>();
-
-            //Repositories
-     //       services.AddScoped<DatabaseCsvAccess>().AddScoped<IAddressRepository, AddressRepository>()
-     //           .AddScoped<IContactsAddressRepository, ContactsAddressRepository>()
-     //.AddScoped<IContactsRepository, ContactsRepository>();
 
             //Mapper
             AutoMapper.MapperConfiguration appConfig = new MapperConfiguration(c => c.AddProfile<ImageMapper>());
@@ -61,6 +52,10 @@ namespace ExtractImages
             //Gzip Compression
             services.Configure<BrotliCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.AddSpaStaticFiles(configuration => 
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
             //Services for Authentication
             services.AddAuthentication(SecurityConstants.AuthenticationScheme)
@@ -94,6 +89,20 @@ namespace ExtractImages
 
             app.UseAuthentication(); //Enable IIS Authentication
             app.UseResponseCompression(); //Response Compression middleware for faster response times
+
+
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
             app.UseMvc();
         }
     }
