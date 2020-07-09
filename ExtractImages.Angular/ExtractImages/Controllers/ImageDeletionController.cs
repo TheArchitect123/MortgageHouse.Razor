@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExtractImages.Controllers
 {
     [Produces("text/plain")]
-    [Route("api/[controller]")]
     //[Authorize(AuthenticationSchemes = (SecurityConstants.AuthenticationScheme))]
     [ApiController]
     public class ImageDeletionController : ControllerBase

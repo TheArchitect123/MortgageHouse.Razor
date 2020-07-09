@@ -13,8 +13,7 @@ using ExtractImages.Extensions;
 namespace ExtractImages.Controllers
 {
     [Produces("text/plain")]
-    [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = (SecurityConstants.AuthenticationScheme))]
+   // [Authorize(AuthenticationSchemes = (SecurityConstants.AuthenticationScheme))]
     [ApiController]
     public class ImageExtractionController : ControllerBase
     {

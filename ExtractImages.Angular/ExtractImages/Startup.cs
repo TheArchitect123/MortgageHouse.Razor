@@ -25,29 +25,50 @@ namespace ExtractImages
 
         public IConfiguration Configuration { get; }
 
+        private void ConfigureDatabaseSetup()
+        {
+           
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            ConfigureDatabaseSetup();
+            services.AddMvc(w => w.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/dist";
+                configuration.RootPath = "ClientApp/src";
+            });
+
+            //Services
+            services.AddScoped<ImageCommonService>()
+                .AddScoped<DatabaseServiceAccess>()
+                .AddScoped<UserSecurity>();
+
+            //Mapper
+            AutoMapper.MapperConfiguration appConfig = new MapperConfiguration(c => c.AddProfile<ImageMapper>());
+            services.AddScoped<IMapper>(c => appConfig.CreateMapper());
+
+            //Gzip Compression
+            services.Configure<BrotliCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+
+            //Services for Authentication
+            services.AddAuthentication(SecurityConstants.AuthenticationScheme)
+               .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(SecurityConstants.AuthenticationScheme, null);
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
-
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -55,7 +76,6 @@ namespace ExtractImages
             }
 
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -75,6 +95,8 @@ namespace ExtractImages
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            app.UseMvc();
         }
     }
 }
