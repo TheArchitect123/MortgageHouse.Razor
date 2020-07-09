@@ -11,9 +11,13 @@
     <div class="form-group">
       <label for="ulimagePaths">Image Paths:</label>
 
-      <ul id="ulimagePaths" required [(ngModel)]="imagePaths" name="ulimagePaths" #ulImageModel="ngModel">
-        <li *ngFor="let item of ulImageModel" [value]="item">{{item}} </li>
-      </ul>
+      <!--<ul>
+    <li *ngFor="let imagePath of imagePaths">{{imagePath}} </li>
+  </ul>-->
+
+      <!--<select class="form-control" id="ulimagePaths" name="ulimagePaths">
+        <option *ngFor="let item of imagePaths" [value]="item">{{item}}</option>
+      </select>-->
     </div>
 
     <div style="display: inline;">

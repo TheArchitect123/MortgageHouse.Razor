@@ -7,7 +7,9 @@ import { Image_extractionService } from '../service/image_extraction.service'
 })
 
 export class HomeComponent {
-  constructor(private imageService: Image_extractionService) { }
+  constructor(private imageService: Image_extractionService) {
+
+  }
 
   imagePaths: string[] = ["http://235253", "ftp://3254"];
 
@@ -18,11 +20,11 @@ export class HomeComponent {
   //Functions
   OnBeginExtraction() {
 
-    this.imageService.ExtractAllData().subscribe(e => {
+    this.imageService.ExtractAllData().subscribe((e) => {
       if (e) {
       }
       else {
-        //Something broke, show an alert
+        //Something broke, show an alert&
 
         this.showError("mmm...Something went wrong");
       }
@@ -31,7 +33,7 @@ export class HomeComponent {
 
   OnBeginReset() {
     //Invoke the rest api to delete all the items
-    this.imageService.DeleteAllData().subscribe(e => {
+    this.imageService.DeleteAllData().subscribe((e) => {
       if (e) {
       }
       else {
