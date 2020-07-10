@@ -62,7 +62,9 @@ namespace ExtractImages.Services
             if (oldItems != null)
             {
                 foreach (var image in oldItems)
+                {
                     File.WriteAllBytes(Path.Combine(DbConstants.ImageDirectory, image.filename), image.image);
+                }
             }
         }
 

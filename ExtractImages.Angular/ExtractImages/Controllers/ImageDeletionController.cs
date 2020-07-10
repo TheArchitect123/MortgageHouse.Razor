@@ -26,7 +26,7 @@ namespace ExtractImages.Controllers
         private readonly ImageCommonService _imageExtract;
 
         [HttpGet]
-        [Route("/begin_deletion")]
+        [Route("/api/begin_deletion")]
         public ActionResult<string> DeleteAllData()
         {
             try
@@ -37,7 +37,7 @@ namespace ExtractImages.Controllers
             catch (Exception ex)
             {
                 ex.LogException();
-                return "Could not find any addresses for this query";
+                return string.Empty;
             }
         }
     }

@@ -27,7 +27,7 @@ namespace ExtractImages.Controllers
         private readonly ImageCommonService _imageExtract;
 
         [HttpGet]
-        [Route("/begin_extraction")]
+        [Route("/api/begin_extraction")]
         public ActionResult<string> ExtractAllData()
         {
             try
@@ -37,7 +37,7 @@ namespace ExtractImages.Controllers
             catch (Exception ex)
             {
                 ex.LogException();
-                return "Could not find any addresses for this query";
+                return string.Empty;
             }
         }
     }

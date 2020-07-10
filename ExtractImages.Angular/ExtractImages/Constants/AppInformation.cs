@@ -2,11 +2,11 @@
 {
     public struct AppInformation
     {
-        public const string Minor = "";
-        public const string Build = "";
-        public const string Version = "";
-        public const string AppName = "";
+        public const string Minor = "0";
+        public const string Build = "0";
+        public const string Version = "1";
+        public const string AppName = "ExtractImages";
 
-        public const string Full_AppName = "";
+        public static readonly string Full_AppName = $"ExtractImages - {Version}.{Minor}.{Build}";
     }
 }

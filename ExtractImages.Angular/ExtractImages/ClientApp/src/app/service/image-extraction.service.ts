@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaderResponse, HttpHeaders } from '@angular/common/http'; //Will be used for sending the data off to the
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { UrlResources } from '../Constants/UrlResources';
 import { SecurityConstants } from '../constants/securityConstants';
 import { Routes } from '../routes/routes';
+import { StringHelper } from '../helpers/stringHelper';
 
 @Injectable({
 
@@ -22,16 +22,14 @@ export class ImageExtractionService {
     });
   }
 
-  public ExtractAllImages(): Observable<string> {
-    //invoke the http client api, to send the details off
-    return this.httpClient.get<string>(UrlResources.TestCommonPostEndpoint.concat(Routes._ExtractImages), {
-      headers: this.headers
-    });
+  public ExtractAllImages() {
+    this.httpClient.get(UrlResources.TestCommonPostEndpoint.concat(Routes._ExtractImages))
+      .subscribe(e => StringHelper.isEmpty(e) ? "mmm...Something went wrong" : alert('Successfully extracted all images on the database'));
   }
 
-  public DeleteAllImages(): Observable<string> {
-    return this.httpClient.get<string>(UrlResources.TestCommonPostEndpoint.concat(Routes._DeleteAllImages), {
-      headers: this.headers
-    });
+  public DeleteAllImages() {
+
+    this.httpClient.get(UrlResources.TestCommonPostEndpoint.concat(Routes._DeleteAllImages))
+      .subscribe(e => StringHelper.isEmpty(e) ? "mmm...Something went wrong" : alert('Successfully deleted all images on the database'));
   }
 }

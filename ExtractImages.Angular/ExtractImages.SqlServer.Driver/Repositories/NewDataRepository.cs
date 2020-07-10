@@ -16,10 +16,12 @@ namespace ExtractImages.SqlServer.Driver.Repositories
 
         public ContentDb _contentMngr;
 
-        public bool AddNewItems(IEnumerable<New> items)
+        public IEnumerable<New> AddNewItems(IEnumerable<New> items)
         {
             try
             {
+                //Filter and remove duplicates by updating their file names, then pass this to the parent context for processing
+                items.GroupBy(w=> w.filename).Select(w => w.)
                 _contentMngr.AddRange(items);
             }
             catch (Exception ex)
@@ -28,7 +30,7 @@ namespace ExtractImages.SqlServer.Driver.Repositories
                 throw ex;
             }
 
-            return true;
+            return null;
         }
 
         public bool RemoveAllNewItems()

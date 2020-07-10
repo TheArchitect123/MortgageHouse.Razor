@@ -23,11 +23,7 @@ namespace ExtractImages
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
+        public Startup(IConfiguration configuration) => Configuration = configuration;
         public IConfiguration Configuration { get; }
 
         private void ConfigureDatabaseSetup()
@@ -41,12 +37,6 @@ namespace ExtractImages
         {
             ConfigureDatabaseSetup();
             services.AddMvc(w => w.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
 
             //Services
             services.AddScoped<ImageCommonService>()
@@ -62,8 +52,8 @@ namespace ExtractImages
            .AddScoped<OldDataRepository>();
 
             //Gzip Compression
-            services.Configure<BrotliCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
-            services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            //services.Configure<BrotliCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
+            //services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
 
             //Angular Setup
             services.AddSpaStaticFiles(configuration =>
@@ -71,48 +61,92 @@ namespace ExtractImages
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(AppInformation.AppName,
+            //    builder =>
+            //    {
+            //        builder.WithOrigins("http://localhost:4200")
+            //                            .AllowAnyHeader()
+            //                            .AllowAnyMethod()
+            //                            .AllowCredentials();
+            //    });
+            //});
+
             //Services for Authentication
             //services.AddAuthentication(SecurityConstants.AuthenticationScheme)
             //   .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(SecurityConstants.AuthenticationScheme, null);
-            services.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-                options.Providers.Add<BrotliCompressionProvider>();
-                options.Providers.Add<GzipCompressionProvider>();
-            });
+            //services.AddResponseCompression(options =>
+            //{
+            //    options.EnableForHttps = true;
+            //    options.Providers.Add<BrotliCompressionProvider>();
+            //    options.Providers.Add<GzipCompressionProvider>();
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //if (env.IsDevelopment())
+            //    app.UseDeveloperExceptionPage();
+
+            //app.UseRouting();
+
+            ////Angular Setup
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
+            //    if (env.IsDevelopment())
+            //        spa.UseAngularCliServer(npmScript: "start");
+            //});
+
+            //// app.UseAuthorization();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
+
+            //app.UseCors(); //Enable CORS Policy 
+
+            ////app.UseAuthentication(); //Enable IIS Authentication
+            //app.UseResponseCompression(); //Response Compression middleware for faster response times
+            //app.UseMvc();
+
             if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
+
+            app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
 
             app.UseRouting();
-
-            //Angular Setup
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-                if (env.IsDevelopment())
-                    spa.UseAngularCliServer(npmScript: "start");
-            });
-
-            // app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()  //Allows the client to hardcode keys into the headers for Basic Auth
-                );
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
 
-            //app.UseAuthentication(); //Enable IIS Authentication
-            app.UseResponseCompression(); //Response Compression middleware for faster response times
-            app.UseMvc();
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
         }
     }
 }
