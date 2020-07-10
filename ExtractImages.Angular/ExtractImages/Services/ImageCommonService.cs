@@ -19,16 +19,13 @@ namespace ExtractImages.Services
 
         public void ClearAllData()
         {
-
+            _databaseService.ClearAllData();
         }
 
         public IEnumerable<ImagesDto> ExtractImages()
         {
-            ClearAllData();
-
-          
-            //
-            return null;
+            ClearAllData(); //Remove all the items before making another extraction
+            return _databaseService.GetNewItemsFromDb();
         }
     }
 }

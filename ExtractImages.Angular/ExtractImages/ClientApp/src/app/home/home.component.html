@@ -2,10 +2,21 @@
   <h1>Image Extraction</h1>
   &nbsp;
 
-  <form>
+  <form #mortageForm="ngForm">
     <div style="display: inline;">
       <button id="submitBtn" type="submit" class="btn btn-success" (click)="beginImageExtraction()">Extract Images</button> &nbsp;
       <button id="resetBtn" type="reset" class="btn btn-outline-secondary" (click)="deleteAllData()">Delete All</button>
+    </div>
+
+    &nbsp;
+    <div class="form-group">
+      <label for="imagePathOptions">Select Image Path</label>
+      <select class="form-control" id="imagePathOptions" required [(ngModel)]="model.images.filename" name="imagePathOptions" #modelOption="ngModel">
+        <option *ngFor="let item of modelOption" [value]="item" [tabindex]="index">{{item}}</option>
+      </select>
+
+      &nbsp;
+      <button id="openImageBtn" type="submit" class="btn btn-success" (click)="openSelectedImage()">Open Selected Image</button> &nbsp;
     </div>
   </form>
 </div>

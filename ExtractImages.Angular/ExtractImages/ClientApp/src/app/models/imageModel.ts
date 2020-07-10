@@ -1,13 +1,15 @@
 export class ImageModel {
-  public ImageID: BigInteger;
-  public UploadOBUAID: BigInteger;
-  public DocumentTypeID: BigInteger;
-  public ApplicationID: BigInteger;
+  public image_id: BigInteger;
+  public upload_obua_id: BigInteger;
+  public document_type_id: BigInteger;
+  public last_download_obua_id: BigInteger;
 
-  public UploadDate: Date;
-  public RecordCreateDate: Date;
+  public upload_date: Date;
+  public Record_Create_Date: Date;
+  public last_download_timestamp: Date;
 
-  public FileName: string;
-  public ImageDescription: string;
-  public ImageFilePath: string;
+  public description: string;
+  public filename: string;
+  public imagePath: string;
 }
+

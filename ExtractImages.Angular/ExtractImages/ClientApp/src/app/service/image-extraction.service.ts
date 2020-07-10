@@ -5,7 +5,10 @@ import { UrlResources } from '../Constants/UrlResources';
 import { SecurityConstants } from '../constants/securityConstants';
 import { Routes } from '../routes/routes';
 
-@Injectable()
+@Injectable({
+
+  providedIn: 'root',
+})
 export class ImageExtractionService {
 
   constructor(private httpClient: HttpClient) { }

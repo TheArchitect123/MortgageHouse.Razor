@@ -2,6 +2,7 @@
 using ExtractImages.SqlServer.Driver.Entities;
 using Microsoft.EntityFrameworkCore;
 using MortgageHouse.Backend.SqlServerDriver.Configurations;
+using System.Collections;
 
 namespace MortgageHouse.Backend.SqlServerDriver
 {
@@ -16,14 +17,13 @@ namespace MortgageHouse.Backend.SqlServerDriver
             modelBuilder.HasDefaultSchema(DbConstants.DbConnectionSchema);
 
             //Configurations
-            modelBuilder.ApplyConfiguration(new OldMngrConfiguration());
+            //modelBuilder.ApplyConfiguration(new OldMngrConfiguration());
             modelBuilder.ApplyConfiguration(new NewMngrConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
 
         //Data
-        public DbSet<Old> sOldItems { get; set; }
         public DbSet<New> sNewitems { get; set; }
     }
 }

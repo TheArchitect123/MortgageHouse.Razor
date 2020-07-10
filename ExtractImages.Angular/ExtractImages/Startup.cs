@@ -54,8 +54,7 @@ namespace ExtractImages
                 .AddScoped<UserSecurity>();
 
             //Mapper
-            AutoMapper.MapperConfiguration appConfig = new MapperConfiguration(c => c.AddProfile<ImageMapper>());
-            services.AddScoped<IMapper>(c => appConfig.CreateMapper());
+            services.AddScoped<IMapper>(c => new MapperConfiguration(c => c.AddProfile<ImageMapper>()).CreateMapper());
 
             //Repositories & Data Access
             services.AddDbContext<ContentDb>(builder => builder.UseSqlServer(DbConstants.DbConnectionString))
@@ -66,9 +65,15 @@ namespace ExtractImages
             services.Configure<BrotliCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
 
+            //Angular Setup
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
+
             //Services for Authentication
-            services.AddAuthentication(SecurityConstants.AuthenticationScheme)
-               .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(SecurityConstants.AuthenticationScheme, null);
+            //services.AddAuthentication(SecurityConstants.AuthenticationScheme)
+            //   .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(SecurityConstants.AuthenticationScheme, null);
             services.AddResponseCompression(options =>
             {
                 options.EnableForHttps = true;
@@ -80,20 +85,33 @@ namespace ExtractImages
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            if (env.IsDevelopment())
+                app.UseDeveloperExceptionPage();
 
             app.UseRouting();
+
+            //Angular Setup
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-
                 if (env.IsDevelopment())
-                {
                     spa.UseAngularCliServer(npmScript: "start");
-                }
             });
 
+            // app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()  //Allows the client to hardcode keys into the headers for Basic Auth
+                );
+
+            //app.UseAuthentication(); //Enable IIS Authentication
+            app.UseResponseCompression(); //Response Compression middleware for faster response times
             app.UseMvc();
         }
     }

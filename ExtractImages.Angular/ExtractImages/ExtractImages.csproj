@@ -38,12 +38,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ExtractImages.Dto\ExtractImages.Dto.csproj" />
     <ProjectReference Include="..\ExtractImages.SqlServer.Driver\ExtractImages.SqlServer.Driver.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\models\imageModel.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\routes\routes.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mapper\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

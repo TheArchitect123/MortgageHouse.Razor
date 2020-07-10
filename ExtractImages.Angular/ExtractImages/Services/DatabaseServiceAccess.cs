@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using ExtractImages.Dto;
 using ExtractImages.SqlServer.Driver;
 using ExtractImages.SqlServer.Driver.Entities;
 using ExtractImages.SqlServer.Driver.Repositories;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Security.Policy;
 
 namespace ExtractImages.Services
@@ -37,8 +41,8 @@ namespace ExtractImages.Services
                 throw new InvalidDataException($"Failed to clear all the items from the \'new\' table on the database \'{DbConstants.DbConnectionSchema}\'");
 
             //Remove all files from the ImageDirectory
-            Directory.Delete(DbConstants.ImageDirectory); //Drop the directory so you don't have to iterate through the records
-            Directory.CreateDirectory(DbConstants.ImageDirectory);
+            foreach (var file in Directory.EnumerateFiles((DbConstants.ImageDirectory))) //Drop the directory so you don't have to iterate through the records
+                File.Delete(file);
         }
 
         /// <summary>
@@ -46,12 +50,26 @@ namespace ExtractImages.Services
         /// </summary>
         public void InitializeDataMigrationToNew()
         {
-            if (!(_newDataRepository.AddNewItems(_oldDataRepository.GetOldItems().ToList().ConvertAll(w =>
+            List<Old> oldItems = null;
+            if (!(_newDataRepository.AddNewItems((oldItems = _oldDataRepository.GetOldItems().ToList()).ConvertAll(w =>
             {
                 var item = _mapper.Map<Old, New>(w);
                 return GetNewItemFromDto(w, ref item);
             })) && _newDataRepository.SaveChanges()))
                 throw new InvalidDataException($"Failed to clear all the items from the \'new\' table on the database \'{DbConstants.DbConnectionSchema}\'");
+
+            //Write the images into the images directory
+            if (oldItems != null)
+            {
+                foreach (var image in oldItems)
+                    File.WriteAllBytes(Path.Combine(DbConstants.ImageDirectory, image.filename), image.image);
+            }
+        }
+
+        public IEnumerable<ImagesDto> GetNewItemsFromDb()
+        {
+            this.InitializeDataMigrationToNew();
+            return _newDataRepository.GetNewItems().ToList().ConvertAll(w => _mapper.Map<New, ImagesDto>(w));
         }
     }
 }
