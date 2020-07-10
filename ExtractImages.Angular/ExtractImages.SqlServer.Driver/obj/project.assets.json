@@ -1310,6 +1310,16 @@
         "runtime": {
           "bin/placeholder/ExtractImages.Dto.dll": {}
         }
+      },
+      "ExtractImages.Utilities/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/ExtractImages.Utilities.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ExtractImages.Utilities.dll": {}
+        }
       }
     }
   },
@@ -5075,12 +5085,18 @@
       "type": "project",
       "path": "../ExtractImages.Dto/ExtractImages.Dto.csproj",
       "msbuildProject": "../ExtractImages.Dto/ExtractImages.Dto.csproj"
+    },
+    "ExtractImages.Utilities/1.0.0": {
+      "type": "project",
+      "path": "../ExtractImages.Utilities/ExtractImages.Utilities.csproj",
+      "msbuildProject": "../ExtractImages.Utilities/ExtractImages.Utilities.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.0": [
       "AutoMapper >= 10.0.0",
       "ExtractImages.Dto >= 1.0.0",
+      "ExtractImages.Utilities >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 3.1.5",
       "Microsoft.EntityFrameworkCore.Design >= 3.1.5",
       "Microsoft.EntityFrameworkCore.Relational >= 3.1.5",
@@ -5124,6 +5140,9 @@
           "projectReferences": {
             "C:\\MortgageHouse_Test2\\MortgageHouse.Razor\\ExtractImages.Angular\\ExtractImages.Dto\\ExtractImages.Dto.csproj": {
               "projectPath": "C:\\MortgageHouse_Test2\\MortgageHouse.Razor\\ExtractImages.Angular\\ExtractImages.Dto\\ExtractImages.Dto.csproj"
+            },
+            "C:\\MortgageHouse_Test2\\MortgageHouse.Razor\\ExtractImages.Angular\\ExtractImages.Utilities\\ExtractImages.Utilities.csproj": {
+              "projectPath": "C:\\MortgageHouse_Test2\\MortgageHouse.Razor\\ExtractImages.Angular\\ExtractImages.Utilities\\ExtractImages.Utilities.csproj"
             }
           }
         }

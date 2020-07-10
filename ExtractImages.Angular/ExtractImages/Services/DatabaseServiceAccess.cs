@@ -50,22 +50,19 @@ namespace ExtractImages.Services
         /// </summary>
         public void InitializeDataMigrationToNew()
         {
-            List<Old> oldItems = null;
-            if (!(_newDataRepository.AddNewItems((oldItems = _oldDataRepository.GetOldItems().ToList()).ConvertAll(w =>
+            //The repository service under the hood will automatically update any duplicate filenames 
+            IEnumerable<New> newItems = null;
+            IEnumerable<Old> oldItems = _oldDataRepository.GetOldItems();
+            if (!((newItems = _newDataRepository.AddNewItems(oldItems.ToList().ConvertAll(w =>
             {
                 var item = _mapper.Map<Old, New>(w);
                 return GetNewItemFromDto(w, ref item);
-            })) && _newDataRepository.SaveChanges()))
+            }))) != null && _newDataRepository.SaveChanges()))
                 throw new InvalidDataException($"Failed to clear all the items from the \'new\' table on the database \'{DbConstants.DbConnectionSchema}\'");
 
             //Write the images into the images directory
-            if (oldItems != null)
-            {
-                foreach (var image in oldItems)
-                {
-                    File.WriteAllBytes(Path.Combine(DbConstants.ImageDirectory, image.filename), image.image);
-                }
-            }
+            foreach (var image in newItems)
+                File.WriteAllBytes(Path.Combine(DbConstants.ImageDirectory, image.filename), oldItems.FirstOrDefault(w => w.image_id == image.image_id).image);
         }
 
         public IEnumerable<ImagesDto> GetNewItemsFromDb()

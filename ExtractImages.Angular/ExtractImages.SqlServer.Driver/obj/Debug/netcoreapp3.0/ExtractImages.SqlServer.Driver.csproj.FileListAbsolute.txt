@@ -13,3 +13,5 @@ C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.S
 C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.SqlServer.Driver\bin\Debug\netcoreapp3.0\ExtractImages.Dto.dll
 C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.SqlServer.Driver\bin\Debug\netcoreapp3.0\ExtractImages.Dto.pdb
 C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.SqlServer.Driver\obj\Debug\netcoreapp3.0\ExtractImages.SqlServer.Driver.csproj.CopyComplete
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.SqlServer.Driver\bin\Debug\netcoreapp3.0\ExtractImages.Utilities.dll
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.SqlServer.Driver\bin\Debug\netcoreapp3.0\ExtractImages.Utilities.pdb

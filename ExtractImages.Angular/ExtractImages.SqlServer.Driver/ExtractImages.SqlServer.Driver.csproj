@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExtractImages.Dto\ExtractImages.Dto.csproj" />
+    <ProjectReference Include="..\ExtractImages.Utilities\ExtractImages.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

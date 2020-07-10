@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "HLMtRpq9Vw74VHMYLa2nxLLGz/hp3FJq9+7A8zbG+WyvKv8MUpxr6CpAED02jP1aTNuOpr+v1Y8mG5uhmzQ5Xw==",
+  "success": true,
+  "projectFilePath": "C:\\MortgageHouse_Test2\\MortgageHouse.Razor\\ExtractImages.Angular\\ExtractImages.Utilities\\ExtractImages.Utilities.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Owner\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Owner\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

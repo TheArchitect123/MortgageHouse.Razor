@@ -1,0 +1,9 @@
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\bin\Debug\netstandard2.0\ExtractImages.Utilities.deps.json
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\bin\Debug\netstandard2.0\ExtractImages.Utilities.dll
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\bin\Debug\netstandard2.0\ExtractImages.Utilities.pdb
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\obj\Debug\netstandard2.0\ExtractImages.Utilities.csprojAssemblyReference.cache
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\obj\Debug\netstandard2.0\ExtractImages.Utilities.AssemblyInfoInputs.cache
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\obj\Debug\netstandard2.0\ExtractImages.Utilities.AssemblyInfo.cs
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\obj\Debug\netstandard2.0\ExtractImages.Utilities.csproj.CoreCompileInputs.cache
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\obj\Debug\netstandard2.0\ExtractImages.Utilities.dll
+C:\MortgageHouse_Test2\MortgageHouse.Razor\ExtractImages.Angular\ExtractImages.Utilities\obj\Debug\netstandard2.0\ExtractImages.Utilities.pdb
