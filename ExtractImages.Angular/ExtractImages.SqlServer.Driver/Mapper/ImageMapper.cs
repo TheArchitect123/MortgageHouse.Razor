@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ExtractImages.SqlServer.Driver.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,18 @@ namespace ExtractImages.Mapper
     {
         public ImageMapper()
         {
-            InitializeToDto();
-            InitializeFromDto();
+            InitializeFromOld();
+            InitializeToNew();
         }
 
-        public void InitializeToDto()
+        public void InitializeToNew()
         {
-            //this.CreateMap<Address, AddressDto>();
+            this.CreateMap<Old, New>();
         }
 
-        public void InitializeFromDto()
+        public void InitializeFromOld()
         {
-            //this.CreateMap<AddressDto, Address>();
+            this.CreateMap<New, Old>();
         }
     }
 }

@@ -9,22 +9,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ExtractImages.Extensions;
+using Newtonsoft.Json;
 
 namespace ExtractImages.Controllers
 {
     [Produces("text/plain")]
-   // [Authorize(AuthenticationSchemes = (SecurityConstants.AuthenticationScheme))]
+    // [Authorize(AuthenticationSchemes = (SecurityConstants.AuthenticationScheme))]
     [ApiController]
     public class ImageExtractionController : ControllerBase
     {
-        public ImageExtractionController(IMapper mapper, ImageCommonService imageExtract)
+        public ImageExtractionController(ImageCommonService imageExtract)
         {
             _imageExtract = imageExtract;
-            _mapper = mapper;
         }
 
         //Services & Dependencies
-        private readonly IMapper _mapper;
         private readonly ImageCommonService _imageExtract;
 
         [HttpGet]
@@ -33,8 +32,7 @@ namespace ExtractImages.Controllers
         {
             try
             {
-
-                return Ok("Successful extraction of data");
+                return JsonConvert.SerializeObject(_imageExtract.ExtractImages());
             }
             catch (Exception ex)
             {

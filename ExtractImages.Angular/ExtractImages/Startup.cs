@@ -4,15 +4,20 @@ using ExtractImages.Mapper;
 using ExtractImages.Middleware;
 using ExtractImages.Services;
 using ExtractImages.Services.Security;
+using ExtractImages.SqlServer.Driver;
+using ExtractImages.SqlServer.Driver.Repositories;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MortgageHouse.Backend.SqlServerDriver;
+using System.IO;
 
 namespace ExtractImages
 {
@@ -27,7 +32,8 @@ namespace ExtractImages
 
         private void ConfigureDatabaseSetup()
         {
-           
+            if (!Directory.Exists(DbConstants.ImageDirectory))
+                Directory.CreateDirectory(DbConstants.ImageDirectory);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -39,7 +45,7 @@ namespace ExtractImages
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/src";
+                configuration.RootPath = "ClientApp/dist";
             });
 
             //Services
@@ -50,6 +56,11 @@ namespace ExtractImages
             //Mapper
             AutoMapper.MapperConfiguration appConfig = new MapperConfiguration(c => c.AddProfile<ImageMapper>());
             services.AddScoped<IMapper>(c => appConfig.CreateMapper());
+
+            //Repositories & Data Access
+            services.AddDbContext<ContentDb>(builder => builder.UseSqlServer(DbConstants.DbConnectionString))
+            .AddScoped<NewDataRepository>()
+           .AddScoped<OldDataRepository>();
 
             //Gzip Compression
             services.Configure<BrotliCompressionProviderOptions>(options => options.Level = System.IO.Compression.CompressionLevel.Optimal);
@@ -70,24 +81,11 @@ namespace ExtractImages
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
+            app.UseSpaStaticFiles();
 
             app.UseRouting();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-            });
-
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())

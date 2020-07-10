@@ -17,14 +17,12 @@ namespace ExtractImages.Controllers
     [ApiController]
     public class ImageDeletionController : ControllerBase
     {
-        public ImageDeletionController(IMapper mapper, ImageCommonService imageExtract)
+        public ImageDeletionController(ImageCommonService imageExtract)
         {
             _imageExtract = imageExtract;
-            _mapper = mapper;
         }
 
         //Services & Dependencies
-        private readonly IMapper _mapper;
         private readonly ImageCommonService _imageExtract;
 
         [HttpGet]
@@ -33,8 +31,7 @@ namespace ExtractImages.Controllers
         {
             try
             {
-
-                //Delete all the items, then force the angular client to render a empty table
+                _imageExtract.ClearAllData();
                 return Ok("Successful Deletion of data");
             }
             catch (Exception ex)
